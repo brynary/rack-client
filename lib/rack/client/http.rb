@@ -59,13 +59,13 @@ class Rack::Client::HTTP
   def parse(response)
     status = response.code.to_i
     headers = {}
-    response.each do |key,value|
+    response.to_hash.each do |key,value|
       key = key.gsub(/(\w+)/) do |matches|
         matches.sub(/^./) do |char|
           char.upcase
         end
       end
-      headers[key] = value
+      headers[key] = value.join("\n")
     end
     [status, headers, response.body.to_s]
   end
